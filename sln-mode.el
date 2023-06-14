@@ -217,13 +217,13 @@ nothing when the uuid is a definition rather than a reference."
                sln-uuid-hashtable))))
 
 (defun sln-replace-description-by-uuid()
-  "Replaces the description at point with it's associated uuid.
+  "Replace the description at point with it\'s associated uuid.
 
 The uuid associated with the given description is looked up in
 `sln-uuid-reverse-hashtable'.
 
 The description is either enclosed in curly braces or is a single
-word, in that order of priority. Point can be either within the
+word, in that order of priority.  Point can be either within the
 description, at the end of it, or at the beginning, in that order
 of priority.
 
@@ -272,7 +272,8 @@ then nothing is done."
            (concat
             "^\\s-*ProjectSection(ProjectDependencies)\\s-*=.*\n"
             "\\(?:\\s-*" sln-re-uuid "\\s-*=\\s-*" sln-re-uuid "\\s-*\n\\)*"
-            "\\s-*\\(" sln-re-uuid "\\)\\s-*=?"))
+            "\\s-*\\(" sln-re-uuid "\\)\\s-*=?")
+           0)
       (if (eq (char-before) ?\=)
           (insert " ")
         (insert " = "))
@@ -315,7 +316,7 @@ then nothing is done."
         (delete-region (point) (re-search-forward "\\=[ \t]*"))
         (indent-to final-column))))
   ;; when within leading horizontal blanks move point accross them
-  (when (looking-back "^[ \t]*")
+  (when (looking-back "^[ \t]*" 0)
     (re-search-forward "\\=[ \t]+")))
 
 ;;;###autoload
@@ -376,9 +377,8 @@ Turning on sln mode runs the normal hook `sln-mode-hook'."
   (run-hooks 'sln-mode-hook)
 
   ;; depended on sln-mode-hooks already runned
-
   ;; so menu can capture bindings potentially defined by hooks
-  (easy-menu-add sln-mode-menu))
+  )
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.sln\\'" . sln-mode))
